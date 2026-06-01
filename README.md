@@ -69,5 +69,5 @@ Anomaly detection using Isolation Forest (left, 5% contamination), Mahalanobis d
 <div align="center">
    <img width="4463" height="5307" alt="09_segmentation_results" src="https://github.com/user-attachments/assets/80a525fb-f758-4454-bbc8-c86ba220b32f" />
 
-    <p><em>Figure 9: Segmentation masks with Dice scores for multiple material categories</em></p>
+    Segmentation masks with Dice scores for multiple material categories</em></p>
 </div>
