@@ -2,17 +2,6 @@
 
 Multi-modal feature extraction and unsupervised clustering for nanomaterial classification using Scanning Electron Microscope images.
 
-<div align="center">
-    <h1>SEM Image Analysis System</h1>
-    
-    <a href="https://github.com/yourusername/sem-image-analysis" target="_blank">
-        <button style="background-color: #3b82f6; color: white; font-size: 16px; font-weight: bold; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-family: sans-serif;">
-            View on GitHub
-        </button>
-    </a>
-</div>
-
----
 
 ## Overview
 
@@ -52,14 +41,55 @@ The system analyzes SEM images across **10 nanomaterial categories**:
 Dataset Source: [SEM Images with Nanoscale Features](https://www.kaggle.com/datasets/adrianacosta0/sem-images-with-nanoscale-features)
 
 
-
 ## Methodology
 
-### 1. Preprocessing
-- CLAHE contrast enhancement
-- Bilateral filtering for noise reduction
-- Otsu thresholding for segmentation
-- Morphological cleaning (opening/closing)
+## Methodology Flowchart
+
+```mermaid
+flowchart TD
+    A[Input: SEM Image<br/>512x512 RGB] --> B[Phase 1: Preprocessing]
+    
+    subgraph B [Phase 1: Preprocessing]
+        B1[CLAHE Contrast<br/>Enhancement] --> B2[Bilateral Filtering]
+        B2 --> B3[Otsu Thresholding]
+        B3 --> B4[Morphological Cleaning]
+    end
+    
+    B --> C[Phase 2: Feature Extraction]
+    
+    subgraph C [Phase 2: Feature Extraction]
+        direction LR
+        C1[Morphological<br/>Features<br/>11-dim] 
+        C2[Deep Learning<br/>ResNet-50/DINOv2<br/>384/2048-dim]
+        C3[SimCLR-style<br/>Embeddings<br/>384/2048-dim]
+        C4[Graph-Based<br/>Metrics<br/>7-dim]
+    end
+    
+    C1 & C2 & C3 & C4 --> D[Hybrid Feature Fusion<br/>139-dim Fingerprint]
+    
+    D --> E[Phase 3: Dimensionality Reduction]
+    
+    subgraph E [Phase 3: Dimensionality Reduction]
+        E1[PCA<br/>50 components] --> E2[UMAP / t-SNE<br/>2 components]
+    end
+    
+    E2 --> F[Phase 4: Analysis]
+    
+    subgraph F [Phase 4: Analysis]
+        F1[Clustering<br/>K-Means + HDBSCAN]
+        F2[Anomaly Detection<br/>Isolation Forest + Mahalanobis]
+        F3[Similarity Search<br/>Cosine + k-NN]
+        F4[Statistics<br/>ANOVA + Correlation]
+    end
+    
+    F1 & F2 & F3 & F4 --> G[Phase 5: Outputs]
+    
+    subgraph G [Phase 5: Outputs]
+        G1[Visualizations<br/>UMAP, Heatmaps, Box Plots]
+        G2[Metrics<br/>Silhouette, DBI, p-values]
+        G3[Data Files<br/>.npy, .csv, .pkl]
+        G4[Dashboard<br/>Streamlit App]
+    end
 
 ### 2. Feature Extraction
 
@@ -141,7 +171,7 @@ The morphology fingerprint system achieves:
 <div align="center">
    <img width="4369" height="2955" alt="03_preprocessing_pipeline" src="https://github.com/user-attachments/assets/28047f3a-d915-4f75-be15-259d86fefae2" />
 
-    <p><em>Figure 1: Preprocessing pipeline showing original image, segmentation mask, overlay, and contour detection for three material categories</em></p>
+  Preprocessing pipeline showing original image, segmentation mask, overlay, and contour detection for three material categories</em></p>
 </div>
 
 ### Similarity Search Results
@@ -205,55 +235,25 @@ The morphology fingerprint system retrieves the top 5 most similar images for a 
             </td>
         </tr>
     </table>
-    <p><em>Figure 2: Similarity search results showing top matches with similarity scores (0.72-0.94)</em></p>
+   Similarity search results showing top matches with similarity scores (0.72-0.94)</em></p>
 </div>
 
-### Category Similarity Matrix
 
-<div align="center">
-    <img src="images/10b_category_similarity_matrix.png" alt="Category Similarity Matrix" width="700">
-    <p><em>Figure 3: Mean cosine similarity heatmap between 10 nanomaterial categories. Darker green indicates higher similarity.</em></p>
-</div>
-
-### Clustering Analysis
-
-<div align="center">
-    <img src="images/06_clustering_analysis.png" alt="Clustering Analysis" width="900">
-    <p><em>Figure 4: UMAP projections showing K-Means clustering (top-right), HDBSCAN clustering (bottom-left), and true category labels (bottom-center)</em></p>
-</div>
 
 ### Anomaly Detection
 
 <div align="center">
-    <img src="images/08b_anomaly_detection.png" alt="Anomaly Detection" width="900">
-    <p><em>Figure 5: Anomaly detection using Isolation Forest (left, 5% contamination), Mahalanobis distance (center, p<0.01), and combined anomalies (right)</em></p>
+ <img width="5370" height="1485" alt="08b_anomaly_detection (1)" src="https://github.com/user-attachments/assets/b3904c85-8453-49a0-ba87-09d130e5253d" />
+
+    Anomaly detection using Isolation Forest (left, 5% contamination), Mahalanobis distance (center, p<0.01), and combined anomalies (right)</em></p>
 </div>
 
-### Category Distribution
-
-<div align="center">
-    <img src="images/02_category_distribution.png" alt="Category Distribution" width="700">
-    <p><em>Figure 6: Distribution of SEM images across 10 nanomaterial categories</em></p>
-</div>
-
-### Morphology Feature Distributions
-
-<div align="center">
-    <img src="images/04_morphology_boxplots.png" alt="Morphology Box Plots" width="900">
-    <p><em>Figure 7: Box plots showing morphological feature distributions (pore count, porosity, diameter, area, circularity, fractal dimension) across all categories</em></p>
-</div>
-
-### Graph Structures on SEM Images
-
-<div align="center">
-    <img src="images/05_graph_structures.png" alt="Graph Structures" width="900">
-    <p><em>Figure 8: Delaunay triangulation graph structures overlaid on skeletonized SEM images for six material categories</em></p>
-</div>
 
 ### Segmentation Results
 
 <div align="center">
-    <img src="images/09_segmentation_results.png" alt="Segmentation Results" width="900">
+    <img width="4463" height="5307" alt="09_segmentation_results (1)" src="https://github.com/user-attachments/assets/29a83b77-927c-4702-8f5d-730a6c520b71" />
+
     <p><em>Figure 9: Segmentation masks with Dice scores for multiple material categories</em></p>
 </div>
 
