@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  sem-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sem-dashboard:latest
+    container_name: sem_dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      # Persist database and exports across restarts
+      - ./data:/app/data
+      - ./exports:/app/exports
+      # Mount local sem_database.db if it exists
+      - ./sem_database.db:/app/sem_database.db
+    environment:
+      - PYTHONUNBUFFERED=1
+      # Torch cache so models are not re-downloaded on every restart
+      - TORCH_HOME=/app/data/.torch_cache
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            # Remove this block if no GPU is available
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
