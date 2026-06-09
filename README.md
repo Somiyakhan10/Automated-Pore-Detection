@@ -1,6 +1,19 @@
-# SEM Image Analysis System
+<div align="center">
+  
+# 🔬 SEM Image Analysis Dashboard
 
-Multi-modal feature extraction and unsupervised clustering for nanomaterial classification using Scanning Electron Microscope images.
+**Hybrid Multi-Scale Feature Learning for SEM Microstructure Analysis**
+
+<br>
+
+<a href="https://huggingface.co/spaces/somiya-khan01/SEM_analysis" target="_blank">
+  <img src="https://img.shields.io/badge/🚀_LAUNCH_DEMO_-TRY_NOW-FF5722?style=for-the-badge&logo=huggingface&logoColor=white" alt="Launch Demo" width="300">
+</a>
+
+<br>
+
+</div>
+
 
 
 ## Overview
